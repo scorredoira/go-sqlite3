@@ -891,7 +891,8 @@ func (rc *SQLiteRows) Columns() []string {
 	if rc.nc != len(rc.cols) {
 		rc.cols = make([]string, rc.nc)
 		for i := 0; i < rc.nc; i++ {
-			rc.cols[i] = C.GoString(C.sqlite3_column_name(rc.s.s, C.int(i)))
+			rc.cols[i] = C.GoString(C.sqlite3_column_name(rc.s.s, C.int(i))) + "@" +
+				strings.ToLower(C.GoString(C.sqlite3_column_decltype(rc.s.s, C.int(i))))
 		}
 	}
 	return rc.cols
